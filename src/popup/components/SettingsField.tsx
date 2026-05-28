@@ -16,7 +16,7 @@ export default function SettingsField({ fieldKey, schema, value, onChange }: Pro
         <input
           id={id}
           type="checkbox"
-          className="h-3.5 w-3.5 rounded accent-blue-600 focus:ring-blue-400"
+          className="h-3.5 w-3.5 rounded accent-blue-600"
           checked={!!value}
           onChange={e => onChange(e.target.checked)}
         />
@@ -47,13 +47,31 @@ export default function SettingsField({ fieldKey, schema, value, onChange }: Pro
     );
   }
 
+  if (schema.type === 'string' && !schema.enum) {
+    return (
+      <div>
+        <label className="mb-1 block text-xs text-gray-500" htmlFor={id}>
+          {schema.title ?? fieldKey}
+        </label>
+        <input
+          id={id}
+          type={schema.inputType === 'password' ? 'password' : 'text'}
+          className="w-full rounded border border-gray-200 bg-white px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-blue-400"
+          value={(value as string) ?? ''}
+          placeholder={schema.description}
+          onChange={e => onChange(e.target.value)}
+        />
+      </div>
+    );
+  }
+
   if (schema.type === 'number') {
     const num = value as number;
     return (
       <div>
         <label className="mb-1 flex items-center justify-between text-xs text-gray-500" htmlFor={id}>
           <span>{schema.title ?? fieldKey}</span>
-          <span className="font-medium text-gray-700">{num}{schema.unit ?? 'ms'}</span>
+          <span className="font-medium text-gray-700">{num}{schema.unit ?? ''}</span>
         </label>
         <input
           id={id}

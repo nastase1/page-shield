@@ -1,3 +1,12 @@
+export type ModuleCategory =
+  | 'vision'
+  | 'motion'
+  | 'reading'
+  | 'focus'
+  | 'motor'
+  | 'cognitive'
+  | 'utility';
+
 export type JSONSchemaProperty =
   | {
       type: 'boolean';
@@ -10,6 +19,7 @@ export type JSONSchemaProperty =
       title?: string;
       description?: string;
       default?: string;
+      inputType?: 'text' | 'password';
       enum?: string[];
       enumNames?: string[];
     }
@@ -35,6 +45,7 @@ export interface ModuleManifest {
   name: string;
   description: string;
   icon: string;
+  category: ModuleCategory;
   settingsSchema: JSONSchema;
 }
 
